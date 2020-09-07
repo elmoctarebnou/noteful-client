@@ -1,22 +1,56 @@
 import React, {Component} from 'react';
 import ApiContext from './ApiContext'
-
-//listen for event on NoteListNav
-//import folderForm input value()
-//export to POST /folders endpoint
+import config from './config'
+import { v1 as uuidv1 } from 'uuid';
+import PropType from 'prop-types'
 
 export default class AddFolder extends Component {
-
+    constructor(){
+        super();
+        this.state = {
+            folderName:''
+        }
+    }
+    handleChange = (event) => {
+        event.preventDefault()
+        this.setState({folderName: event.currentTarget.value})
+    }
+    handleSubmit = (event) => {
+        fetch(`${config.API_ENDPOINT}/folders/add-folder`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+              },
+            body: JSON.stringify({
+                name: this.state.folderName})
+        })
+        .then(res => {
+            if (!res.ok)
+              return res.json().then(e => Promise.reject(e))
+            return res.json();
+          })
+        .catch(error => {
+            console.error({ error })
+        })
+    }
     render () {
         return (
             <ApiContext.Consumer> 
-                {({handleChange}) => (
-            <form className='addFolder'>
-                <input onChange={handleChange} type='text' placeholder='Folder Name'/>
-                <button>Submit</button>
-            </form> 
-           )}
+                {() => {
+                    return (
+                        <form onSubmit={this.handleSubmit} className='addFolder'>
+                            <input onChange={this.handleChange} type='text' placeholder='Folder Name'required/>
+                            <button>Submit</button>
+                        </form> 
+                    )
+                }}
             </ApiContext.Consumer>
         )
     }
+}
+AddFolder.propTypes = {
+    folder: PropType.objectOf(PropType.shape({
+        id: PropType.string.isRequired,
+        name: PropType.string.isRequired
+    }))
 }

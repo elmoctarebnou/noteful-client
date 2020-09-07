@@ -7,7 +7,6 @@ import ApiContext from '../ApiContext'
 import { getNotesForFolder } from '../notes-helpers'
 import './NoteListMain.css'
 
-
 export default class NoteListMain extends React.Component {
   static defaultProps = {
     match: {
@@ -28,13 +27,14 @@ export default class NoteListMain extends React.Component {
               <Note
                 id={note.id}
                 name={note.name}
-                modified={note.modified}
+                modified={note.date_published}
+                content={note.content}
+                folder_id={note.folder_id}
               />
             </li>
           )}
         </ul>
         <div className='NoteListMain__button-container'>
-          
           <CircleButton
             tag={Link}
             to='/add-note'
@@ -45,7 +45,6 @@ export default class NoteListMain extends React.Component {
             <br />
             Note
           </CircleButton>
-          
         </div>
       </section>
     )
