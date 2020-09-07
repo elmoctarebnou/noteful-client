@@ -1,3 +1,3 @@
 export default {
-  API_ENDPOINT: 'http://localhost:9000/api'
+  API_ENDPOINT: 'https://fast-island-52665.herokuapp.com/'
 }
