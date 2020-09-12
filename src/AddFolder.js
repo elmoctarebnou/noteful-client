@@ -16,6 +16,7 @@ export default class AddFolder extends Component {
         this.setState({folderName: event.currentTarget.value})
     }
     handleSubmit = (event) => {
+        event.preventDefault();
         fetch(`${config.API_ENDPOINT}/folders/add-folder`, {
             method: 'POST',
             headers: {

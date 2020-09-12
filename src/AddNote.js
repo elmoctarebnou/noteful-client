@@ -40,6 +40,7 @@ export default class AddNote extends React.Component{
         this.setState({content: event.currentTarget.value})
     }
     handelSubmit = (event) => {
+        event.preventDefault();
         fetch(`${config.API_ENDPOINT}/notes/add-note`, {
             method: 'POST',
             headers: {
