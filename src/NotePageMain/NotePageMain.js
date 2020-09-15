@@ -14,12 +14,12 @@ export default class NotePageMain extends React.Component {
   static contextType = ApiContext;
   handleDeleteNote = async noteId => {
     try {
-      this.props.history.push(`/`)
       await fetch(`${API_ENDPOINT}/notes/${noteId}`, {
         method: "DELETE"
       });
+      this.props.history.push(`/`)
     } catch (error) {
-      console.log(error)
+      console.log(`error: ${error}`)
     }
     }
     
@@ -27,7 +27,6 @@ export default class NotePageMain extends React.Component {
     const { notes=[] } = this.context
     const { noteId } = this.props.match.params
     const note = findNote(notes, `${noteId}`) || { content: '' }
-    // const foundNote = notes.find(element => element.id == noteId);
     return (
       <section className='NotePageMain'>
         <Note

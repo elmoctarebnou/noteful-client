@@ -57,7 +57,7 @@ export default class AddNote extends React.Component {
     .catch((error) => {
         console.error({ error });
     });
-    // this.props.history.push('/')
+    this.props.history.push('/')
   };
 
   render() {
