@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import { Route, Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,7 +18,7 @@ class App extends Component {
     folders: [],
   };
 
-  componentDidMount() {
+  fetchData = () => {
     Promise.all([
       fetch(`${config.API_ENDPOINT}/notes`),
       fetch(`${config.API_ENDPOINT}/folders`),
@@ -38,7 +37,9 @@ class App extends Component {
         console.error({ error });
       });
   }
-
+  componentDidMount() {
+    this.fetchData()
+  }
   handleDeleteNote = (noteId) => {
     this.setState({
       notes: this.state.notes.filter((note) => note.id !== noteId),
@@ -70,11 +71,17 @@ class App extends Component {
       </>
     );
   }
+  addNote = (note) =>{
+  const { notes } = this.state;
+  this.setState({ notes: [...notes, note]})
+  }
   render() {
     const value = {
       notes: this.state.notes,
       folders: this.state.folders,
       deleteNote: this.handleDeleteNote,
+      addNote: this.addNote,
+      refresh: this.fetchData
     };
     return (
       <ErrorBoundry>

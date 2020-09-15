@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import ApiContext from './ApiContext'
 import config from './config'
-import { v1 as uuidv1 } from 'uuid';
 import PropType from 'prop-types'
 
 export default class AddFolder extends Component {
@@ -11,6 +10,7 @@ export default class AddFolder extends Component {
             folderName:''
         }
     }
+    static contextType = ApiContext;
     handleChange = (event) => {
         event.preventDefault()
         this.setState({folderName: event.currentTarget.value})
@@ -26,13 +26,14 @@ export default class AddFolder extends Component {
                 name: this.state.folderName})
         })
         .then(res => {
-            if (!res.ok)
-              return res.json().then(e => Promise.reject(e))
-            return res.json();
+            if (!res.ok) return res.json().then(e => Promise.reject(e));
+            return this.context.refresh();
+            
           })
         .catch(error => {
             console.error({ error })
         })
+        this.props.history.push('/');
     }
     render () {
         return (
